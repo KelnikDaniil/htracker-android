@@ -30,6 +30,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kelnik.htracker.R
+import com.kelnik.htracker.ui.page.habits.HabitsPage
 import com.kelnik.htracker.ui.page.splash.SplashPage
 import com.kelnik.htracker.ui.theme.AppTheme
 import com.kelnik.htracker.ui.theme.typography
@@ -182,8 +183,7 @@ fun AppScaffold() {
 
                 }
                 composable(route = RouteName.HABITS) {
-                    Text(text = "HABITS")
-
+                    HabitsPage()
                 }
                 composable(route = RouteName.HISTORY) {
                     Text(text = "HISTORY")
