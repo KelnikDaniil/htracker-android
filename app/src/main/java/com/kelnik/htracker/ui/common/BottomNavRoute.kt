@@ -1,4 +1,4 @@
-package com.kelnik.htracker.ui.page.common
+package com.kelnik.htracker.ui.common
 
 import androidx.annotation.StringRes
 import com.kelnik.htracker.R
