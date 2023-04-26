@@ -24,6 +24,7 @@ import com.kelnik.htracker.R
 import com.kelnik.htracker.ui.page.add_habits.AddHabitsPage
 import com.kelnik.htracker.ui.page.edit_habits.EditHabitsPage
 import com.kelnik.htracker.ui.page.habits.HabitsPage
+import com.kelnik.htracker.ui.page.history.HistoryPage
 import com.kelnik.htracker.ui.page.settings.SettingsPage
 import com.kelnik.htracker.ui.page.splash.SplashPage
 import com.kelnik.htracker.ui.page.templates_habits.TemplatesHabitsPage
@@ -215,14 +216,7 @@ fun AppScaffold(onThemeChange: (AppTheme.Theme) -> Unit) {
                         )
                     }
                     composable(route = RouteName.HISTORY) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                text = "HISTORY",
-                                color = AppTheme.colors.colorOnPrimary,
-                                style = typography.titleMedium
-                            )
-                        }
-
+                        HistoryPage()
                     }
                     composable(route = RouteName.ADD_HABITS) {
                         AddHabitsPage(
