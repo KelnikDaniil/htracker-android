@@ -10,13 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.kelnik.htracker.ui.page.habits.HabitsViewModel
 import com.kelnik.htracker.ui.theme.AppTheme
 import com.kelnik.htracker.ui.theme.MiddlePadding
 import com.kelnik.htracker.ui.theme.SmallPadding
 import com.kelnik.htracker.ui.theme.typography
 
 @Composable
-fun HistoryPage() {
+fun HistoryPage(
+    viewModel: HistoryViewModel = hiltViewModel()
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
