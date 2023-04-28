@@ -14,10 +14,11 @@ import com.kelnik.htracker.ui.theme.AppTheme
 import com.kelnik.htracker.ui.theme.LargePadding
 import com.kelnik.htracker.ui.theme.MiddlePadding
 import com.kelnik.htracker.ui.theme.typography
+import java.time.LocalTime
 
 
 @Composable
-fun ChooseTimeModalBottomSheet() {
+fun ChooseTimeModalBottomSheet(callback: (LocalTime)->Unit) {
     Column(
         modifier = Modifier
             .padding(MiddlePadding),

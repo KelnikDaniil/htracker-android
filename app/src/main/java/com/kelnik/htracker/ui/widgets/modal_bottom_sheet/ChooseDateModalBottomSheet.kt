@@ -1,73 +1,41 @@
 package com.kelnik.htracker.ui.widgets.modal_bottom_sheet
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.kelnik.htracker.ui.theme.*
-
-val colorList = listOf(
-    Color.Blue,
-    Color.Cyan,
-    Color.Red,
-    Color.Green,
-    Color.Magenta,
-    Color.Yellow,
-    Color.LightGray,
-    Color.Gray,
-    Color.Black,
-).windowed(3, 3)
+import com.commandiron.wheel_picker_compose.WheelDatePicker
+import com.kelnik.htracker.ui.theme.AppTheme
+import com.kelnik.htracker.ui.theme.LargePadding
+import com.kelnik.htracker.ui.theme.MiddlePadding
+import com.kelnik.htracker.ui.theme.typography
+import java.time.LocalDate
 
 
 @Composable
-fun ChooseIconColorModalBottomSheet() {
+fun ChooseDateModalBottomSheet(callback: (LocalDate)->Unit) {
     Column(
         modifier = Modifier
             .padding(MiddlePadding),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = "Выбор цвета значка",
+            text = "Выберите время",
             color = AppTheme.colors.colorOnPrimary,
             style = typography.titleMedium,
         )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height((256 + 32 + 16).dp)
-                .padding(vertical = MiddlePadding)
-        ) {
-            items(colorList) { colorRow ->
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                    colorRow.forEach {
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(SmallPadding)
-                                .border(
-                                    border = BorderStroke(16.dp, it.copy(alpha = 0.4f)),
-                                    shape = RoundedCornerShape(MiddlePadding)
-                                )
-                                .padding(ExtraSmallPadding)
-                                .background(it, shape = RoundedCornerShape(MiddlePadding))
-                                .size(96.dp)
-                        )
-                    }
-                }
-
-            }
+        WheelDatePicker(
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) { snappedTime ->
+            println(snappedTime)
         }
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Button(
                 onClick = { },
