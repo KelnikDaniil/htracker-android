@@ -14,24 +14,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.commandiron.wheel_picker_compose.WheelDatePicker
 import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
+import com.commandiron.wheel_picker_compose.core.WheelTextPicker
 import com.kelnik.htracker.ui.theme.AppTheme
 import com.kelnik.htracker.ui.theme.LargePadding
 import com.kelnik.htracker.ui.theme.MiddlePadding
 import com.kelnik.htracker.ui.theme.typography
-import java.time.LocalDate
 
 
 @Composable
-fun ChooseDateModalBottomSheet(
-    initValue: LocalDate?,
-    callback: (LocalDate) -> Unit,
+fun ChooseRepeatCountModalBottomSheet(
+    initValue: Int?,
+    callback: (Int) -> Unit,
     onCancel: () -> Unit
 ) {
-    var currentDate by rememberSaveable {
-        mutableStateOf(initValue ?: LocalDate.now().plusWeeks(1))
+    var currentRepeatCountIndex by rememberSaveable {
+        mutableStateOf((initValue ?: 1) - 1)
     }
+
+    val listRepeatCounters = (1..1000).toList().map { it.toString() }
+
 
     Column(
         modifier = Modifier
@@ -39,35 +41,37 @@ fun ChooseDateModalBottomSheet(
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = "Выбор даты окончания",
+            text = "Кол-во повторов",
             color = AppTheme.colors.colorOnPrimary,
             style = typography.titleMedium,
         )
 
-        WheelDatePicker(
+        WheelTextPicker(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(MiddlePadding),
-            startDate = initValue ?: LocalDate.now().plusWeeks(1),
-            minDate = LocalDate.now(),
-            maxDate = LocalDate.MAX,
             size = DpSize(256.dp, 128.dp),
             rowCount = 3,
-            textStyle = typography.labelMedium,
-            textColor = AppTheme.colors.colorOnPrimary,
+            startIndex = currentRepeatCountIndex,
+            style = typography.labelMedium,
+            color = AppTheme.colors.colorOnPrimary,
             selectorProperties = WheelPickerDefaults.selectorProperties(
                 color = AppTheme.colors.colorOnPrimary.copy(alpha = 0.2f),
                 border = null
             ),
-        ) { snappedTime ->
-            currentDate = snappedTime
+            texts = listRepeatCounters
+        ) {
+            if (it in listRepeatCounters.indices) {
+                currentRepeatCountIndex = it
+            }
+            null
         }
+
+
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Button(
-                onClick = {
-                    onCancel()
-                },
+                onClick = { onCancel() },
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier,
                 contentPadding = PaddingValues(
@@ -87,7 +91,7 @@ fun ChooseDateModalBottomSheet(
             }
             Button(
                 onClick = {
-                    callback(currentDate)
+                    callback(currentRepeatCountIndex + 1)
                     onCancel()
                 },
                 shape = RoundedCornerShape(16.dp),

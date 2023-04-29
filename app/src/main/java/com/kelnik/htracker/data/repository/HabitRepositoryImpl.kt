@@ -1,12 +1,19 @@
 package com.kelnik.htracker.data.repository
 
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.map
 import com.kelnik.htracker.data.local.dao.HabitDao
 import com.kelnik.htracker.data.local.model.HabitDbModel
 import com.kelnik.htracker.domain.entity.Habit
 import com.kelnik.htracker.domain.mapper.Mapper
 import com.kelnik.htracker.domain.repository.HabitRepository
 import com.kelnik.htracker.utils.Resource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -40,8 +47,9 @@ class HabitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getHabitList(): Resource<List<Habit>> = withContext(Dispatchers.IO) {
+    override suspend fun getHabitList(): Resource<Flow<List<Habit>>> {
         val result = habitDao.getAll()
-        Resource.Success(result.map { mapper.mapDbModelToItem(it) })
+        val flow = result.asFlow().map { it.map { mapper.mapDbModelToItem(it) } }
+        return Resource.Success(flow)
     }
 }

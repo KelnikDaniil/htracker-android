@@ -3,6 +3,7 @@ package com.kelnik.htracker.domain.interactor
 import com.kelnik.htracker.domain.entity.Habit
 import com.kelnik.htracker.domain.repository.HabitRepository
 import com.kelnik.htracker.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class HabitUseCase @Inject constructor(
@@ -17,6 +18,6 @@ class HabitUseCase @Inject constructor(
     suspend fun getHabit(habitId: Int): Resource<Habit> =
         habitRepository.getHabit(habitId)
 
-    suspend fun getHabitList(): Resource<List<Habit>> =
+    suspend fun getHabitList(): Resource<Flow<List<Habit>>> =
         habitRepository.getHabitList()
 }
