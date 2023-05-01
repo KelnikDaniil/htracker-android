@@ -2,6 +2,7 @@ package com.kelnik.htracker.ui.theme
 
 import androidx.compose.ui.unit.dp
 
+val ExtraSmallIconSize = 16.dp
 val SmallIconSize = 24.dp
 val MiddleIconSize = 36.dp
 val LargeIconSize = 48.dp
