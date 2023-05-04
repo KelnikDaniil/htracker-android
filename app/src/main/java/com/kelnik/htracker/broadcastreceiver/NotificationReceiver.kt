@@ -2,10 +2,14 @@ package com.kelnik.htracker.broadcastreceiver
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
+import com.kelnik.htracker.MainActivity
 import com.kelnik.htracker.R
 import com.kelnik.htracker.domain.entity.Habit
 import com.kelnik.htracker.domain.interactor.EventNotificationUseCase
@@ -34,8 +38,11 @@ class NotificationReceiver : BroadcastReceiver() {
             val eventNotification =
                 eventNotificationUseCase.getEventNotification(eventNotificationId).checkFailure()
             val habit = habitUseCase.getHabit(eventNotification.habitId).checkFailure()
-            val mBuilder = NotificationCompat.Builder(context, "com.kelnik.htracker.event")
+            val channelId = "com.kelnik.htracker.event"
+            val mBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(habit.iconId)
+                .setColor(Color(habit.colorRGBA).toArgb())
+                .setChannelId(channelId)
                 .setContentTitle(
                     habit.title + when (habit.targetType) {
                         Habit.Companion.TargetType.OFF -> ""
@@ -52,11 +59,11 @@ class NotificationReceiver : BroadcastReceiver() {
                     }
                 )
                 .setContentText(context.resources.getString(R.string.dont_forget))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val channel = NotificationChannel(
-                "com.kelnik.htracker.event",
+                channelId,
                 context.resources.getString(R.string.habit_notifications),
                 NotificationManager.IMPORTANCE_HIGH
             )
