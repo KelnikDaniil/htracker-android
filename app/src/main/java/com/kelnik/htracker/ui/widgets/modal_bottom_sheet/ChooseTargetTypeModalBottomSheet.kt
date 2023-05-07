@@ -5,13 +5,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -19,10 +17,9 @@ import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import com.commandiron.wheel_picker_compose.core.WheelTextPicker
 import com.kelnik.htracker.R
 import com.kelnik.htracker.domain.entity.Habit.Companion.TargetType
-import com.kelnik.htracker.ui.theme.AppTheme
-import com.kelnik.htracker.ui.theme.LargePadding
-import com.kelnik.htracker.ui.theme.MiddlePadding
-import com.kelnik.htracker.ui.theme.typography
+import com.kelnik.htracker.ui.theme.*
+import com.kelnik.htracker.ui.utils.pxToDp
+import com.kelnik.htracker.ui.widgets.AutoResizeText
 
 @Composable
 fun ChooseTargetTypeModalBottomSheet(
@@ -78,21 +75,32 @@ fun ChooseTargetTypeModalBottomSheet(
             null
         }
 
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        var width by remember {
+            mutableStateOf(0)
+        }
+
+        Row(
+            modifier = Modifier
+                .onSizeChanged {
+                    width = it.width
+                }
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Button(
                 onClick = { onCancel() },
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier,
+                modifier = Modifier.width((width/2.5).toInt().pxToDp()),
                 contentPadding = PaddingValues(
-                    vertical = MiddlePadding,
-                    horizontal = LargePadding
+                    vertical = SmallPadding,
+                    horizontal = MiddlePadding
                 ),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = AppTheme.colors.colorOnPrimary,
                     contentColor = AppTheme.colors.colorPrimary
                 )
             ) {
-                Text(
+                AutoResizeText(
                     text = stringResource(id = R.string.cancel).toUpperCase(),
                     style = typography.titleMedium,
                     color = AppTheme.colors.colorPrimary
@@ -111,17 +119,17 @@ fun ChooseTargetTypeModalBottomSheet(
                     onCancel()
                 },
                 shape = RoundedCornerShape(16.dp),
-                modifier = Modifier,
+                modifier = Modifier.width((width/2.5).toInt().pxToDp()),
                 contentPadding = PaddingValues(
-                    vertical = MiddlePadding,
-                    horizontal = LargePadding
+                    vertical = SmallPadding,
+                    horizontal = MiddlePadding
                 ),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = AppTheme.colors.colorOnPrimary,
                     contentColor = AppTheme.colors.colorPrimary
                 )
             ) {
-                Text(
+                AutoResizeText(
                     text = stringResource(id = R.string.save).toUpperCase(),
                     style = typography.titleMedium,
                     color = AppTheme.colors.colorPrimary
